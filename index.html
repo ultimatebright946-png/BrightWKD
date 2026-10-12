@@ -1,125 +1,67 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#080808">
-  <meta name="description" content="BrightWorks secure WhatsApp pairing portal.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="theme-color" content="#09090f">
+  <meta name="description" content="BrightWorks WhatsApp pairing portal.">
+
   <title>BrightWorks | Pairing Portal</title>
+
+  <link rel="stylesheet" href="./style.css">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-</head>
-<body>
-  <div class="ambient ambient-one"></div>
-  <div class="ambient ambient-two"></div>
 
-  <header class="topbar">
-    <a class="brand" href="#" aria-label="BrightWorks home">
-      <span class="brand-mark">B<span>.</span></span>
-      <span class="brand-copy"><strong>BRIGHTWORKS</strong><small>PAIRING PORTAL</small></span>
-    </a>
-    <div class="topbar-right">
-      <span class="secure-label"><span class="pulse-dot"></span> SECURE SESSION</span>
-      <button class="icon-button" id="settingsToggle" type="button" aria-label="Open connection settings" title="Connection settings">⚙</button>
-    </div>
-  </header>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
 
-  <main class="layout">
-    <section class="intro">
-      <div class="eyebrow"><span class="eyebrow-line"></span> WHATSAPP LINKING INTERFACE</div>
-      <h1>Connect your<br><span>WhatsApp.</span></h1>
-      <p class="intro-copy">Link your account using a pairing code. No QR scanner is needed on this page. Keep your code and portal key private.</p>
-      <div class="feature-row">
-        <div class="feature"><span class="feature-icon">⌁</span><span><b>Pairing code</b><small>Code-based linking</small></span></div>
-        <div class="feature"><span class="feature-icon">◈</span><span><b>Private by design</b><small>Secrets aren't saved</small></span></div>
-      </div>
-      <div class="terminal-card" aria-label="Connection terminal decoration">
-        <div class="terminal-head"><span class="terminal-lights"><i></i><i></i><i></i></span><span>brightworks://session</span><span class="terminal-live">LIVE UI</span></div>
-        <div class="terminal-body">
-          <p><span class="term-prompt">bw</span> initializing pairing interface...</p>
-          <p><span class="term-ok">[READY]</span> waiting for your request</p>
-          <p><span class="term-muted">[INFO]</span> session credentials stay with you</p>
-          <p class="terminal-cursor"><span class="term-prompt">bw</span> <span class="cursor">▋</span></p>
-        </div>
-      </div>
-    </section>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-    <section class="pair-panel" aria-labelledby="pairTitle">
-      <div class="panel-top">
-        <div>
-          <span class="panel-kicker">DEVICE AUTHENTICATION</span>
-          <h2 id="pairTitle">Pair your device</h2>
-        </div>
-        <span class="status-pill" id="statusPill"><i></i><span id="statusText">Checking status</span></span>
-      </div>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", sans-serif;
+      background: #09090f;
+      color: #f4f4f8;
+    }
 
-      <div class="stepper" aria-label="Pairing steps">
-        <div class="step active"><span>01</span><small>Enter details</small></div>
-        <div class="step-line"></div>
-        <div class="step"><span>02</span><small>Get code</small></div>
-        <div class="step-line"></div>
-        <div class="step"><span>03</span><small>Link device</small></div>
-      </div>
+    button,
+    input {
+      font: inherit;
+    }
 
-      <form id="pairForm" autocomplete="off">
-        <label for="phoneNumber">WhatsApp phone number</label>
-        <div class="input-shell phone-shell">
-          <span class="input-prefix">＋</span>
-          <input id="phoneNumber" name="number" type="tel" inputmode="numeric" placeholder="2348012345678" maxlength="18" required aria-describedby="phoneHelp">
-        </div>
-        <p class="field-help" id="phoneHelp">Include your country code. Use digits only, without +, spaces or dashes.</p>
+    button {
+      cursor: pointer;
+    }
 
-        <label for="portalKey">Portal key <span class="optional-label">required by server</span></label>
-        <div class="input-shell">
-          <span class="input-prefix">⌑</span>
-          <input id="portalKey" name="portalKey" type="password" placeholder="Enter your private portal key" autocomplete="new-password" required>
-          <button class="reveal-button" type="button" id="toggleKey" aria-label="Show portal key">SHOW</button>
-        </div>
-        <p class="field-help">Your key is sent to your configured backend for this request only. This page does not save it.</p>
+    .page {
+      width: min(100% - 32px, 480px);
+      margin: 0 auto;
+      padding: 32px 0;
+    }
 
-        <button class="primary-button" id="pairButton" type="submit">
-          <span class="button-text">Generate pairing code</span><span class="button-arrow">↗</span>
-        </button>
-      </form>
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
 
-      <div class="message-box hidden" id="messageBox" role="status" aria-live="polite"></div>
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-      <section class="code-section hidden" id="codeSection" aria-live="polite">
-        <div class="code-heading"><span class="code-indicator"></span> YOUR PAIRING CODE</div>
-        <div class="code-display" id="pairingCode">•••• ••••</div>
-        <button class="copy-button" type="button" id="copyCode">▣ Copy code</button>
-        <ol class="instructions">
-          <li>Open WhatsApp on your phone.</li>
-          <li>Go to <b>Settings → Linked devices → Link a device</b>.</li>
-          <li>Choose <b>Link with phone number</b> and enter the code if prompted.</li>
-        </ol>
-        <p class="warning-note">Never share your pairing code. Anyone who links your account may access your WhatsApp session.</p>
-      </section>
-
-      <div class="panel-footer"><span class="footer-lock">▣</span> Your WhatsApp session is handled by your bot server.</div>
-    </section>
-
-    <section class="settings-panel hidden" id="settingsPanel" aria-labelledby="settingsTitle">
-      <div class="settings-heading">
-        <div><span class="panel-kicker">CONNECTION CONFIGURATION</span><h2 id="settingsTitle">Backend settings</h2></div>
-        <button class="icon-button" id="settingsClose" type="button" aria-label="Close settings">×</button>
-      </div>
-      <label for="backendUrl">Backend base URL <span class="optional-label">optional</span></label>
-      <input class="settings-input" id="backendUrl" type="url" placeholder="https://your-bot-service.example.com">
-      <p class="field-help">Leave blank if this page and your API are served from the same origin. For GitHub Pages, enter your deployed bot server URL. This value stays in this page's memory and is not saved.</p>
-      <button class="secondary-button" type="button" id="saveSettings">Use this backend</button>
-      <p class="field-help settings-note">Expected endpoints: <code>GET /api/status</code> and <code>POST /api/pair</code>. The server must allow this site's origin through CORS if hosted separately.</p>
-    </section>
-
-    <footer class="page-footer">
-      <span>© <span id="year"></span> BRIGHTWORKS</span>
-      <span class="footer-separator">/</span>
-      <span>PAIRING PORTAL</span>
-      <span class="footer-right">BLACKOUT MODE <i></i></span>
-    </footer>
-  </main>
-</body>
-</html>
+    .brand-logo {
+      display: grid;
+      place-items: center;
+      width: 45
