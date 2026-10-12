@@ -1,0 +1,21 @@
+{
+  "name": "brightworks-premium-bot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BrightWorks premium hacker pairing portal and WhatsApp bot backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.18",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "pino": "^9.6.0"
+  }
+}
